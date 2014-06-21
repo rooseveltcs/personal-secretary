@@ -1,3 +1,10 @@
+/*
+Main class that controls which option user picks (new, load, or credits). Depending on what the user pick,
+the interface changes. 
+*@author Nhi Ngo
+*@version 06/15/2014
+*/
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -10,6 +17,9 @@ public class Program {
    private JPanel listClasses;
    private ArrayList<String> names;
    
+   /*
+   *Sets the main frame that users will view from
+   */
    public Program() {
       mainDisplay = new JFrame("Personal Secretary");
       mainDisplay.setLayout(new FlowLayout());
@@ -18,23 +28,34 @@ public class Program {
       
    }
    
+   /*
+   *Displays the intro by calling the IntroDisplay class. It displays three buttons ("options") for the user to
+   *choose from. 
+   */
    public void intro() {
       IntroDisplay intro = new IntroDisplay();
       introduction = intro.start();
       mainDisplay.add(introduction);
-      //mainDisplay.revalidate();
       mainDisplay.setVisible(true);
    }
    
+   /*
+   *Is called from the IntroDisplay class, and displays all asking information that pertain to 
+   *new users: such as prompting to ask for name, school, and quarter.
+   */
    public void askInfo() {
-      //mainDisplay.setVisible(false);
       this.questionaire = new Asking();
       JPanel questions = questionaire.ask();
       mainDisplay.add(questions);
       mainDisplay.setVisible(true);
-      //mainDisplay.revalidate();
    }
    
+   /*
+   *This method is called from the Asking class and uses all given info about the user to begin organizing
+   *and asking for their classes. 
+   *@param listNames the list of information of the user: first name, last name, and then school name
+   *@param quarter which quarter the user is currently in in school. If it is over 4, then it is semsters.
+   */
    public void classInfo(ArrayList<String> listNames, int quarter) {
       names = listNames;
       
@@ -43,10 +64,17 @@ public class Program {
       mainDisplay.add(listClasses);
       mainDisplay.setVisible(true);
    }
+   
+   /*
+   *Method that begins loading information. 
+   */
    public void load() {
       
    }
    
+   /*
+   *Method that loads the credits information
+   */
    public void credits() {
    
    }

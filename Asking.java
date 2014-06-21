@@ -1,3 +1,12 @@
+/*
+Prompts a frame that asks the user for their personal information and inputs it into a list to be accessed from again
+at a later time. Primarily asks for their first and last name, school name, what type of school they are in, and what 
+quarter or semester they are in currently. Depending on their answers, different choices will show. 
+
+@author Nhi Ngo
+@version 06/15/2014
+*/
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -22,7 +31,9 @@ public class Asking extends Program implements ActionListener{
    private JTextField lastName;
    private JTextField schoolName;
    private ArrayList<String> names;
-   
+
+
+   /*Intializes all instance fields*/   
    public Asking() {
       highS = 0;
       colle = 0;
@@ -42,30 +53,38 @@ public class Asking extends Program implements ActionListener{
       overallInfo.add(info, BorderLayout.SOUTH);  
       names = new ArrayList<String>();    
    }
+   
+   /*Adds all components regarding asking the user into the main visual panel for the user to interact and read*/
    public JPanel ask() {
       questions.add(empty, BorderLayout.CENTER); 
       intro = introText();         
       questions.add(intro, BorderLayout.NORTH);
       personalInfo();
       schoolAsk();
-      //quarterInfo();
       overallInfo.add(userInfo, BorderLayout.NORTH);
       overallInfo.add(schoolAsk, BorderLayout.CENTER);
       questions.add(overallInfo, BorderLayout.SOUTH);     
       return questions;
    }
    
+   /*
+   *Creates and set a label
+   *@param name the text that will display on the label
+   */
    private JLabel label(String name) {
       JLabel label = new JLabel(name, JLabel.CENTER);
       label.setPreferredSize(new Dimension(80, 15));
       return label;  
    }
    
+   /*Creates and set the settings of textfield*/
    private JTextField text(){
       JTextField text = new JTextField();
       text.setPreferredSize(new Dimension(85, 20));
       return text;
    }
+   
+   /*Shows the introduction text to the user. Primarily is instructions and information to the user*/
    private JTextPane introText() {
       JTextPane text = new JTextPane();
       text.setEditable(false);
@@ -73,6 +92,7 @@ public class Asking extends Program implements ActionListener{
       return text;
   }
   
+  /*Prompts the user for personal information*/
   private void personalInfo() {
       JLabel fName = label("First Name");
       JLabel lName = label("Last Name");
@@ -88,6 +108,7 @@ public class Asking extends Program implements ActionListener{
       userInfo.add(schoolName); 
   }
   
+  /*Asks the user about school information and different panels will display according to user's choice*/
   private void schoolAsk(){
       schoolAsk = new JPanel(new GridLayout(1, 3));
       JLabel question = new JLabel ("What school are you in?", JLabel.CENTER);
@@ -101,6 +122,7 @@ public class Asking extends Program implements ActionListener{
       schoolAsk.add(college);
   }
   
+  /*If the user is in high school, choices of semesters will appear*/
   private void highSchool(){
       overall.remove(quarterC);
       overall.revalidate();
@@ -108,7 +130,6 @@ public class Asking extends Program implements ActionListener{
       if (highS == 0) {
          JRadioButton firstSem = radioButton("1st Semester");
          JRadioButton secondSem = radioButton("2nd Semester");
-         
          ButtonGroup group = new ButtonGroup();
          group.add(firstSem);
          group.add(secondSem);
@@ -116,12 +137,12 @@ public class Asking extends Program implements ActionListener{
          quarterHS.add(secondSem);
       }
       if(highS == 0 || highS % 2 == 0) {
-        // overall.remove(quarterC);
          overall.add(quarterHS);
       } 
       overall.revalidate();
   }
   
+  /*If user is in college, choices to choose quarters will be visible*/
   private void college() {
       overall.remove(quarterHS);
       overall.revalidate();
@@ -144,12 +165,12 @@ public class Asking extends Program implements ActionListener{
          quarterC.add(summer);
       }
       if(colle == 0 || colle % 2 == 0) {
-         //overall.remove(quarterHS);
          overall.add(quarterC);    
       } 
       overall.revalidate();
   }
   
+  /*Adds a button of "next" for the user to continue*/
   private void next() {
       JButton next = button("Continue");
       info.add(next, BorderLayout.CENTER);
@@ -157,6 +178,7 @@ public class Asking extends Program implements ActionListener{
       overall.revalidate();
   }
 
+  /*Add user's info onto arrayList*/
   public void setNames() {
       names = new ArrayList<String>();
       names.add(firstName.getText());
@@ -164,6 +186,10 @@ public class Asking extends Program implements ActionListener{
       names.add(schoolName.getText()); 
   }
   
+  /*
+  *Creates a radio button
+  *@param name the text that labels the button
+  */
   private JRadioButton radioButton(String name){
       JRadioButton box = new JRadioButton(name);
       box.setSelected(false);
@@ -171,15 +197,20 @@ public class Asking extends Program implements ActionListener{
       
       return box;
   }
+  
+   /*
+   *Creates and set the settings for button
+   *@param name the text that will appear on the button
+   */  
   private JButton button(String name) {
       JButton button = new JButton(name);
       button.setText(name);
       button.setBackground(Color.WHITE);
       button.addActionListener(this);
-      
       return button;
    }
   
+   /*Depending on which button user picks, the listener will react differently*/
    public void actionPerformed(ActionEvent event) {
       if (event.getActionCommand().equals("High School")) {
          highSchool();
